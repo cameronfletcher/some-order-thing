@@ -4,19 +4,18 @@
     using System.Collections.Concurrent;
     using System.Threading;
 
-    public class ThreadedHandler : IHandleOrder, IStartable, IDisposable
+    public class ThreadedHandler<T> : IHandle<T>, IStartable, IDisposable
     {
-        private readonly ConcurrentQueue<TableOrder> orders;
-        private readonly IHandleOrder handler;
+        private readonly ConcurrentQueue<T> orders = new ConcurrentQueue<T>();
+        private readonly IHandle<T> handler;
         private Thread thread;
 
-        public ThreadedHandler(IHandleOrder handler)
+        public ThreadedHandler(IHandle<T> handler)
         {
             this.handler = handler;
-            this.orders = new ConcurrentQueue<TableOrder>();
         }
 
-        public void Handle(TableOrder order)
+        public void Handle(T order)
         {
             this.orders.Enqueue(order);
         }
@@ -31,7 +30,7 @@
         {
             while (true)
             {
-                TableOrder order;
+                T order;
                 if (this.orders.TryDequeue(out order))
                 {
                     try

@@ -70,7 +70,7 @@ internal sealed class Microbus
         messageInvoker.Invoke(message);
     }
 
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public void Send<T>(T message)
     {
         if (this.cyclicLimitTriggered)

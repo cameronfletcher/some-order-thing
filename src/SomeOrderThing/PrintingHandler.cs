@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class PrintingHandler : IHandleOrder
+    public class PrintingHandler : IHandle<Messages.OrderPaid>
     {
-        public void Handle(TableOrder order)
+        public void Handle(Messages.OrderPaid order)
         {
             ////Console.WriteLine(order.Serialize().ToString());
         }

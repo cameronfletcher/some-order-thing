@@ -1,7 +1,7 @@
-﻿namespace SomeOrderThing
-{
-    public interface IHandleOrder
-    {
-        void Handle(TableOrder order);
-    }
-}
+﻿//namespace SomeOrderThing
+//{
+//    public interface IHandleOrder
+//    {
+//        void Handle(TableOrder order);
+//    }
+//}

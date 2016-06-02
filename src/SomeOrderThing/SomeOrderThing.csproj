@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="AssistantManager.cs" />
     <Compile Include="Cashier.cs" />
+    <Compile Include="IHandleOrder.cs" />
+    <Compile Include="IMonitorable.cs" />
     <Compile Include="IPublisher.cs" />
     <Compile Include="IStartable.cs" />
     <Compile Include="ListExtensions.cs" />
@@ -57,9 +59,10 @@
     <Compile Include="Messages\OrderPriced.cs" />
     <Compile Include="Messages\OrderPlaced.cs" />
     <Compile Include="Microbus.cs" />
+    <Compile Include="MicrobusPublisher.cs" />
     <Compile Include="Multiplexer.cs" />
     <Compile Include="PrintingHandler.cs" />
-    <Compile Include="IHandleOrder.cs" />
+    <Compile Include="IHandle.cs" />
     <Compile Include="MoreFairDispatcher.cs" />
     <Compile Include="TaskThreadedHandler.cs" />
     <Compile Include="ThreadedHandler.cs" />

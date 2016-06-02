@@ -1,21 +1,19 @@
 ﻿namespace SomeOrderThing
 {
-    public class Cashier : IHandleOrder
+    public class Cashier : IHandle<Messages.OrderPriced>
     {
         private readonly IPublisher publisher;
-        private readonly string topic;
 
-        public Cashier(IPublisher publisher, string topic)
+        public Cashier(IPublisher publisher)
         {
             this.publisher = publisher;
-            this.topic = topic;
         }
 
-        public void Handle(TableOrder order)
+        public void Handle(Messages.OrderPriced order)
         {
-            var tableOrder = order.Copy();
+            var tableOrder = order.Order.Copy();
             tableOrder.Paid = true;
-            this.publisher.Publish(this.topic, tableOrder);
+            this.publisher.Publish(new Messages.OrderPaid { Order = tableOrder });
         }
     }
 }

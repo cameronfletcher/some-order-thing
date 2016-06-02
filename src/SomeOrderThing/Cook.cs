@@ -2,19 +2,17 @@
 {
     using System.Threading;
 
-    public class Cook : IHandleOrder
+    public class Cook : IHandle<Messages.OrderPlaced>
     {
         private readonly IPublisher publisher;
         private readonly string name;
         private readonly int sleepTime;
-        private readonly string topic;
 
-        public Cook(IPublisher publisher, string topic, string name, int sleepTime)
+        public Cook(IPublisher publisher, string name, int sleepTime)
         {
             this.publisher = publisher;
             this.sleepTime = sleepTime;
             this.name = name;
-            this.topic = topic;
         }
 
         public string Name
@@ -25,16 +23,16 @@
             }
         }
 
-        public void Handle(TableOrder order)
+        public void Handle(Messages.OrderPlaced order)
         {
             Thread.Sleep(this.sleepTime);
 
-            var tableOrder = order.Copy();
+            var tableOrder = order.Order.Copy();
 
             tableOrder.Ingredients = "KFC chicken";
             tableOrder.CookName = this.name;
 
-            this.publisher.Publish(this.topic, tableOrder);
+            this.publisher.Publish(new Messages.OrderCooked { Order = tableOrder });
         }
     }
 }

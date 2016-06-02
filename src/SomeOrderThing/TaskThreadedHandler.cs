@@ -5,14 +5,14 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class TaskThreadedHandler : IHandleOrder, IStartable, IDisposable
+    public class TaskThreadedHandler<T> : IHandle<T>, IStartable, IDisposable, IMonitorable
     {
-        private readonly ConcurrentQueue<TableOrder> orders = new ConcurrentQueue<TableOrder>();
+        private readonly ConcurrentQueue<T> orders = new ConcurrentQueue<T>();
         private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-        private readonly IHandleOrder handler;
+        private readonly IHandle<T> handler;
 
-        public TaskThreadedHandler(IHandleOrder handler, string name)
+        public TaskThreadedHandler(IHandle<T> handler, string name)
         {
             this.handler = handler;
             this.Name = name;
@@ -25,7 +25,7 @@
             get { return this.orders.Count; }
         }
 
-        public void Handle(TableOrder order)
+        public void Handle(T order)
         {
             this.orders.Enqueue(order);
         }
@@ -39,7 +39,7 @@
         {
             while (!token.IsCancellationRequested)
             {
-                TableOrder order;
+                T order;
                 if (this.orders.TryDequeue(out order))
                 {
                     try

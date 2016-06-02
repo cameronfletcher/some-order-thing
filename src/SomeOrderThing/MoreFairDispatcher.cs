@@ -3,13 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    public class MoreFairDispatcher : IHandleOrder
-    {
-        private readonly Queue<TaskThreadedHandler> handlers;
 
-        public MoreFairDispatcher(IEnumerable<TaskThreadedHandler> handlers)
+    public class MoreFairDispatcher<T> : IHandle<T>
+    {
+        private readonly Queue<TaskThreadedHandler<T>> handlers;
+
+        public MoreFairDispatcher(IEnumerable<TaskThreadedHandler<T>> handlers)
         {
-            this.handlers = new Queue<TaskThreadedHandler>(handlers);
+            this.handlers = new Queue<TaskThreadedHandler<T>>(handlers);
 
             if (this.handlers.Count <= 0)
             {
@@ -17,7 +18,7 @@
             }
         }
 
-        public void Handle(TableOrder order)
+        public void Handle(T order)
         {
             while (true)
             {
