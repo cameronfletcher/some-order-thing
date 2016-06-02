@@ -37,14 +37,14 @@
             bool success;
             do
             {
-                System.Console.WriteLine("Invoked for {0}, attempt {1}", topic, ++retries);
+                System.Console.WriteLine("Subscribe invoked for {0}, attempt {1}", topic, ++retries);
 
                 var handlersOfT = this.handlers.GetOrAdd(topic, t => new List<object>());
 
                 var list = new List<object>(handlersOfT);
                 list.Add(handler);
 
-                System.Threading.Thread.Sleep(5000);
+                System.Threading.Thread.Sleep(2000);
 
                 success = this.handlers.TryUpdate(topic, list, handlersOfT);
             }

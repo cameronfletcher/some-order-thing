@@ -52,8 +52,10 @@
             Thread.Sleep(1000);
             publisher.UnsubscribeByType(dispatcher);
 
-            Task.Run(() => publisher.SubscribeByType(cooks.First()));
-            Task.Run(() => publisher.SubscribeByType(cooks.Last()));
+            var task1 = Task.Run(() => publisher.SubscribeByType(cooks.First()));
+            var task2 = Task.Run(() => publisher.SubscribeByType(cooks.Last()));
+
+            Task.WaitAll(task1, task2);
 
             for (var i = 0; i < 40; i++)
             {
