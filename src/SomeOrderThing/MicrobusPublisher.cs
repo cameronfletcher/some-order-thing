@@ -11,7 +11,7 @@
             this.bus = bus;
         }
 
-        public void Publish<T>(T message)
+        public void Publish(MessageBase message)
         {
             this.bus.Send(message);
         }
