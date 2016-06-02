@@ -6,7 +6,7 @@
     {
         public void Handle(TableOrder order)
         {
-            Console.WriteLine(order.Serialize().ToString());
+            ////Console.WriteLine(order.Serialize().ToString());
         }
     }
 }
