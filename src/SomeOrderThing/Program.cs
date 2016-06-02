@@ -43,15 +43,23 @@
 
             list.ForEach(item => item.Start());
 
-            for (var i = 0; i < 50; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var order = new TableOrder(Guid.NewGuid());
                 waiter.Handle(order);
             }
 
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             publisher.UnsubscribeByType(dispatcher);
-            publisher.SubscribeByType(cooks.First());
+
+            Task.Run(() => publisher.SubscribeByType(cooks.First()));
+            Task.Run(() => publisher.SubscribeByType(cooks.Last()));
+
+            for (var i = 0; i < 40; i++)
+            {
+                var order = new TableOrder(Guid.NewGuid());
+                waiter.Handle(order);
+            }
 
             Console.ReadLine();
 
