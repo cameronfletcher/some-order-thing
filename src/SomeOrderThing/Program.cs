@@ -10,7 +10,8 @@
     {
         public static void Main(string[] args)
         {
-            var publisher = new TopicBasedPubSub();
+            var bus = new Microbus();
+            var publisher = new MicrobusPubSub(bus);
 
             var printer = new PrintingHandler();
             var cashier = new TaskThreadedHandler<OrderPriced>(new Cashier(publisher), "cashier");
@@ -32,10 +33,7 @@
             var list = new List<IMonitorable>();
             list.AddRange(cooks, cashier, assMan, dispatcher);
 
-            publisher.Subscribe(dispatcher);
-            publisher.Subscribe(assMan);
-            publisher.Subscribe(cashier);
-            publisher.Subscribe(printer);
+            bus.AutoRegister(dispatcher, assMan, cashier, printer);
 
             var cts = new CancellationTokenSource();
             Task.Run(() => MonitorStuff(list, cts.Token));
